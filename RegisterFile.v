@@ -19,17 +19,16 @@ module RegisterFile
 		begin
 			if(RegWrite==0'b1)
 				begin
-					#1 RegFile[write_reg]<=write_data; 
+						if(!write_reg==5'b00000)  #1 RegFile[write_reg]<=write_data; 
 				end
 			else
 				begin
 					// check for $S0 
-						if(read_reg1==5'b00000) read_data1<=32'b0;
-						else  #1 read_data1<=RegFile[read_reg1];
-						
+						if(read_reg1==5'b00000)  read_data1=32'b0;		
+						else  #1 read_data1=RegFile[read_reg1];
 							
-						if(read_reg1==5'b00000) read_data2<=32'b0;
-						else  #1 read_data2<=RegFile[read_reg2];
+						if(read_reg2==5'b00000) read_data2=32'b0;
+						else  #1 read_data2=RegFile[read_reg2];
 				end			
 		end 
 						
