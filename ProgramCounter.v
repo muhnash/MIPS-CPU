@@ -18,7 +18,7 @@ module ProgramCounter(address,next_instruction, clock);
 		
 	always@(next_instruction)
 		begin
-			// +++ check for instruction validity : must be devisuble by 4
+			// +++ check for instruction validity : must be devisuble by 
 			current_instruction<= next_instruction;
 		end 
 endmodule
