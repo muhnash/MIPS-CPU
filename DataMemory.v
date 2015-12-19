@@ -1,9 +1,14 @@
 module DataMemory(read_data ,address ,write_data ,MemRead ,clock);
-input address[10:0],write_data ,MemRead ,clock;
+input address[10:0],write_data[31:0] ,MemRead ,clock;
 output read_data;
 
 reg [7:0]data_memory[0:2047]; // 2K=2048 bytes of  data memory 	  , 11 bits for addressing
-reg [31:0]read_data;
+reg [31:0]read_data; 
+
+initial 
+	begin
+		$readmemb("data_memory.list",data_memory);
+	end 
 
 always@(posedge clock)
 	begin	  
