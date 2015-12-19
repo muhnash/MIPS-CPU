@@ -1,4 +1,7 @@
-module sign_extend(in,out);
+module Sign_Extend(in,out);
+   	
+ 	//in : 16-bit input 
+	//out: 32-bit output
 	input in [15:0];
 	output out[31:0];
 	reg [31:0]out;
