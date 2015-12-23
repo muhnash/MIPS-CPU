@@ -1,4 +1,6 @@
 # waveform files
 *.asdb
 *.asdbw
+*.aws
+*.error
  
