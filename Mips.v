@@ -7,7 +7,7 @@ module MIPS();
 =========================================================
 	Instruction Set Supported:
 	==========================
-		• Arithmetic: add, addi
+		• Arithmetic: add, addi	  
 		• Load/Store: lw, sw
 		• Logic: sll, and, andi, nor
 		• Control flow: beq, jal, jr
