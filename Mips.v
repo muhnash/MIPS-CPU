@@ -14,8 +14,6 @@ module MIPS();
 		• Comparison: slt
 
 */	   
-
-
 // wires declarations
 wire clock;
 wire address[31:0],forced_instruction[31:0];  // for program counter 
@@ -31,7 +29,7 @@ wire data_out[31:0]; // output of data memory
 */	
 	
 // Modules instantiation 
-ProgramCounter PC (address,forced_instruction, clock);
+ProgramCounter PC (address,mux5_out, clock);
 
 InstructionMemory inst_memory(instruction,address,clock);
 
@@ -48,28 +46,40 @@ RegisterFile(read_data1,read_data2,RegWrite, Rs , Rt, mux1_out, mux3_out , clock
 
 ControlUnit cont_unit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, ALUsrc, RegWrite, opcode);
 
+wire [31:0]imm_32;
 Sign_Extend(immediate,imm_32);  // input 16 bit immediate , output imm_32 32 bits
+
 Mux mux2(mux2_out,read_data2,imm_32,ALUsrc);
 
  
-Alu_Control (ALU_operation, func , ALUop);
+Alu_Control ALUCont (ALU_operation, func , ALUop);
 ALU main_alu(read_data1,mux2_out,ALU_operation,ALU_out,ZERO);
 
-DataMemory data_memory(data_out ,ALU_out,read_data2 ,MemRead,MemWrite,clock);
+DataMemory data_memory(data_out,ALU_out,read_data2,MemRead,MemWrite,clock);
 
-Mux mux3(mux3_out,data_out,ALU_out,MemrtoReg);
+Mux mux3(mux3_out,ALU_out,data_out,MemrtoReg);
 //-----------------------------------------------------------------
-wire address_plus4;
+wire [31:0]address_plus4;
 Adder_4  adder1(address_plus4, address);
 
-wire adder2_result;
-Adder  adder2(adder2_result, address_plus4 , imm_32);  // WRONG : imm_32 have to be shifted left 2
+wire [31:0]adder2_result;
+wire [31:0]shifted_imm32;
+ShiftLeft_2(shifted_imm32 , imm_32);
+Adder adder2(adder2_result, address_plus4 , shifted_imm32);  
 
 wire branch_control= ZERO && Branch; //logical and 
 Mux mux4(mux4_out,address_plus4,adder2_result,branch_control);
 
+//implementing jump part
+wire shift1_out[25:0];
+ShiftLeft_2(shift1_out, target);  // shift_out is 26 bits wide
 
+//wire mask[27:0]=28'b1111111111111111111111111100;
+//wire jump_address28= shift1_out && mask; // here we got the 26 bit outta the shifing left + 2 lower bits 00 added
+wire [31:0]jump_address = {address_plus4[31:28],shift1_out,2'b00};
+// jump_address is (4 higher bits from address+4 )+(26bit shifted left) + (2 lower bits "00")
 
+Mux mux5(mux5_out,mux4_out,jump_address,Jump);
 
 
 endmodule
