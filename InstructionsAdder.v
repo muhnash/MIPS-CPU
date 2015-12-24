@@ -1,4 +1,4 @@
-module Adder (out, instruction_address);
+module Adder_4 (out, instruction_address);
 	input [31:0] instruction_address;
 	output [31:0] out;
 	reg [31:0] out;
