@@ -58,6 +58,16 @@ ALU main_alu(read_data1,mux2_out,ALU_operation,ALU_out,ZERO);
 DataMemory data_memory(data_out ,ALU_out,read_data2 ,MemRead,MemWrite,clock);
 
 Mux mux3(mux3_out,data_out,ALU_out,MemrtoReg);
+//-----------------------------------------------------------------
+wire address_plus4;
+Adder_4  adder1(address_plus4, address);
+
+wire adder2_result;
+Adder  adder2(adder2_result, address_plus4 , imm_32);  // WRONG : imm_32 have to be shifted left 2
+
+wire branch_control= ZERO && Branch; //logical and 
+Mux mux4(mux4_out,address_plus4,adder2_result,branch_control);
+
 
 
 
