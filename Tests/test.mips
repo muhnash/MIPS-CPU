@@ -1,10 +1,13 @@
+# Calculate the sum of numbers from 0-100 and store them in address 0x00 in memory
 add $s1, $zero, $zero
 addi $t1, $zero, 101
 andi $t2, $t2, 0
+andi $t4, $t4, 0
 LOOP:
   add $s1, $s1, $t2
   addi $t2, $t2, 1
+  slt $t3, $t1, $t2
   beq $t1, $t2, END
-  bne $t1, $t2, LOOP
+  beq $t3, $zero, LOOP
 END:
-  sw $s1, 0($t2)
+  sw $s1, 0($t4)
