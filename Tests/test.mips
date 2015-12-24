@@ -1,9 +1,10 @@
-add $s1, $s1, $0
-addi $t1, $t1, 101
+add $s1, $zero, $zero
+addi $t1, $zero, 101
 andi $t2, $t2, 0
 LOOP:
-  addi $s1, $s1, 1
-  beq $s1, $t1, END
-  bne $s1, $t1, LOOP
+  add $s1, $s1, $t2
+  addi $t2, $t2, 1
+  beq $t1, $t2, END
+  bne $t1, $t2, LOOP
 END:
   sw $s1, 0($t2)
