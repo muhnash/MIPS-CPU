@@ -31,7 +31,7 @@ module Alu_Control(in1,in2,out);
 	 if(in1==2'b10 && in2==6'b000000) begin out=4'b0100;  end	      //sll
 	 if(in1==2'b10 && in2==6'b100100) begin out=4'b0101;  end	 	  //and
 	 if(in1==2'b10 && in2==6'b100111) begin out=4'b0111;  end		  //nor
-	 if(in1==2'b10 && in2==6'b001000) begin out=4'b1010;  end		  //jr
+	 //if(in1==2'b10 && in2==6'b001000) begin out=4'b1010;  end		  //jr	  NOT NEEDED IN THIS PART
      if(in1==2'b10 && in2==6'b101010) begin out=4'b1011;  end		  //slt
 	 end
 	
