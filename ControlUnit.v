@@ -15,7 +15,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				Branch<=1'b0;
 		   				MemRead<=1'b0;
 		   				MemrtoReg<=1'b0;
-	       					ALUop<=2'b10;
+	       				ALUop<=2'b100;
    						MemWrite<=1'b0;
 		   				ALUsrc<=1'b0;
 		   				RegWrite<=1'b1;
@@ -27,7 +27,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 						Branch<=1'b0;
 	  					MemRead<=1'b0;
 		   				MemrtoReg<=1'b0;
-	       					ALUop<=2'b00;
+	       				ALUop<=2'b00;
 		   				MemWrite<=1'b0;
 		   				ALUsrc<=1'b0;
 		   				RegWrite<=1'b0;
@@ -39,7 +39,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				Branch<=1'b0;
 		   				MemRead<=1'b1;
 		   				MemrtoReg<=1'b1;
-	       					ALUop<=2'b00;
+	       				ALUop<=2'b00;
 		   				MemWrite<=1'b0;
 		   				ALUsrc<=1'b1;
 		   				RegWrite<=1'b1;
@@ -51,7 +51,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				Branch<=;
 		   				MemRead<=;
 		   				MemrtoReg<=;
-	       					ALUop<=;
+	       				ALUop<=;
 		   				MemWrite<=;
 						ALUsrc<=;
 		   				RegWrite<=;
@@ -63,7 +63,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				Branch<=;
 		   				MemRead<=;
 		   				MemrtoReg<=;
-	       					ALUop<=;
+	       				ALUop<=;
 		   				MemWrite<=;
 		   				ALUsrc<=;
 		   				RegWrite<=;

@@ -33,9 +33,11 @@ InstructionMemory(instruction,address,clock);
 
 InstructionDecoder(opcode, Rs, Rt, Rd ,shmt, func, immediate, target, instruction);
 
-RegisterFile(read_data1,read_data2, RegWrite,read_reg1, read_reg2, write_reg, write_data, clock);
+wire 
+Mux(out,value1,value2,sel);
+RegisterFile(read_data1,read_data2,RegWrite, Rs , Rt, write_reg, write_data, clock);
 
-ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, ALUsrc, RegWrite, op_code);
+ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, ALUsrc, RegWrite, opcode);
 
 ALU(in1,in2,control_in,out,ZERO); 
 
