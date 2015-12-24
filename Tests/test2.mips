@@ -1,0 +1,5 @@
+# Multiply number in $s1 by 9
+lw $s1, 0($t1)
+add $t2, $s1, $0
+sll $s1, $s1, 3
+add $s1, $s1, $t1
