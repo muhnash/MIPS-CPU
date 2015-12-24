@@ -19,36 +19,39 @@ module ALU(in1,in2,control_in,out,ZERO);
 	always @(in1 or in2 or control_in)
 		begin 
 	
-			if(control_in==4'b0000)begin   // ADD OPERATION
+			if(control_in==4'b0000)begin   // ADD & ADDI OPERATION
 			 out=in1+in2;
 			end	
 			
-			if(control_in==4'b0001)begin  // ADDI OPERATION
+			/*if(control_in==4'b0001)begin  // ADDI OPERATION
 			   
 			   out=in1+in2;
 			end
+			*/
 			
-			if(control_in==4'b0010)begin  // LW OPERATION
+			if(control_in==4'b0010)begin  // LW & SW OPERATION
 				out=in1+in2;
 			end
 			
-			if(control_in==4'b0011)begin  // SW OPERATION
+			/*if(control_in==4'b0011)begin  // SW OPERATION
 				out=in1+in2;
 			end
+			*/
 			
 			if(control_in==4'b0100)begin  // S11 OPERATION
 						 out=in1*2*in2;
 			end
 			
-			if(control_in==4'b0101)begin  // AND OPERATION
+			if(control_in==4'b0101)begin  // AND & ANDI OPERATION
 				
 				out=in1 & in2;
 			end
 			
-			if(control_in==4'b0110)begin  // ANDI OPERATION
+			/*if(control_in==4'b0110)begin  // ANDI OPERATION
 				
 			    out=in1 & in2;
-			end
+			end	
+			*/
 			
 			if(control_in==4'b0111)begin // NOR OPERATION
 				
@@ -60,14 +63,16 @@ module ALU(in1,in2,control_in,out,ZERO);
 				else ZERO=0;			  
 			end
 			
-			if(control_in==4'b1001)begin //   jal  OPERATION
+			/*if(control_in==4'b1001)begin //   jal  OPERATION
 				
 					//DO NOTHING
-			end
-			if(control_in==4'b1010)begin //   jr   OPERATION
+			end	
+			*/
+			/*if(control_in==4'b1010)begin //   jr   OPERATION
 					//DO NOTHING
 				
 			end
+			*/
 			if(control_in==4'b1011)begin //   slt  OPERATION
 				if(in1<in2) out=1;
 				else out=0;
