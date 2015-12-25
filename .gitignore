@@ -3,4 +3,5 @@
 *.asdbw
 *.aws
 *.error
- 
+*.asdb.error
+*.error_ready 
