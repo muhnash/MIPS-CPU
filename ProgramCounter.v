@@ -1,24 +1,18 @@
-module ProgramCounter(address,forced_instruction, clock); 
+module ProgramCounter(inst_address,next_inst_address, clock); 
 	// for insttruction memory of size 64 , 8 bit address
-	input clock, forced_instruction[7:0];
-	output address[7:0];	
-	reg [7:0]next_instruction,address;
-	
-	
-	initial
-		begin
-			next_instruction<=6'b000000;
-		end 
-	
-	always@(posedge clock)
-		begin
-			address <=next_instruction;
-			next_instruction<= next_instruction +6'b000100;
-		end		 
-		
-	always@(forced_instruction)
-		begin
-			// +++ check for instruction validity : must be devisible by 4 !! HW or it's an assembler job ?
-			next_instruction<= forced_instruction;
-		end 
+	input next_inst_address[7:0], clock;
+	output  inst_address;
+	reg [7:0]inst_address;
+
+	initial 
+	begin
+		inst_address=8'b00000000;
+	end
+
+	always @(posedge clock) 
+	begin
+		inst_address=next_inst_address;
+	end
 endmodule
+
+
