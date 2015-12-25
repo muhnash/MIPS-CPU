@@ -6,7 +6,17 @@ module Sign_Extend(in,out);
 	output out[31:0];
 	reg [31:0]out;
 	always @(in) begin
-	 out=0'b0000_0000_0000_0000 + in;
+		if(in[15]==0)begin
+			out=16'b0000_0000_0000_0000 + in;
+		end	
+	else begin
+		    out[31:16]=16'b1111_1111_1111_1111;
+			out[15:0]=in;
+	    end	
+		
+	
+	
+	 
 	end
 	
 	
