@@ -15,9 +15,12 @@ module RegisterFile(read_data1, read_data2, RegWrite, read_reg1, read_reg2, writ
 	
 	initial	   // for testing purposes 
 		begin 
-		   RegFile[5'b10101]=32'b000000000000000000000000010001;  // register 21 = 17
-		   RegFile[5'b10110]=32'b000000000000000000000000011101;  // register 22 = 29
+		   //RegFile[5'b10101]=32'b000000000000000000000000010001;  // register 21 = 17		//THE REASON FOR THE ERROR
+		   //RegFile[5'b10110]=32'b000000000000000000000000011101;  // register 22 = 29		//THE REASON FOR THE ERROR
 		   
+		   
+		   RegFile[21]=32'b000000000000000000000000010001;	//CORRECTED 
+		   RegFile[22]=32'b000000000000000000000000011101;	//CORRECTED
 		   // inst 000000  10101  10110 00001 00000 100000
 		   //  ADD  $reg1 $reg22 $reg21; 
 		   
