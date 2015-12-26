@@ -47,34 +47,51 @@ registers = {
     "$ra"   : "11111",
 }
 inst = ""
+labels ={}
+inst_count = -1
 fr = open('test.mips', 'r')
+fc = open('test.mips', 'r')
 fw = open('output.binary', 'w')
+for l in fc:
+    l = l.lstrip()
+    if not re.search('^#.*', l):
+        inst_count +=1
+    l = re.sub('#.*', '', l)
+    if ":" in l:
+        labels[re.sub(':.*|\n', '', l)] = inst_count
+        inst_count -=1
 for line in fr:
-    line = line[:-1]
     line = line.lstrip()
-    if line[0] == "#":
+    line = re.sub('[a-zA-Z]+:|#.*|\n', '', line)
+    line = line.lstrip()
+    y = re.split(', |,| ', line)
+    if y[0] in op_code.keys():
+        if op_code[y[0]] == "000000":
+            if y[0] == "add":
+                inst += op_code[y[0]]+registers[y[2]]+registers[y[3]]+registers[y[1]] +"00000"+ "100000"
+            elif y[0] == "and":
+                inst += op_code[y[0]]+registers[y[2]]+registers[y[3]]+registers[y[1]] +"00000"+ "100100"
+            elif y[0] == "sll":
+                inst += op_code[y[0]]+registers[y[1]]+registers[y[2]] + str(format(int(y[3]), '05b')) + "000000"
+            elif y[0] == "jr":
+                inst += op_code[y[0]]+registers[y[1]] + "000000000000000001000"
+            elif y[0] == "slt":
+                inst += op_code[y[0]]+registers[y[2]]+registers[y[3]]+registers[y[1]] +"00000"+ "101010"
+            elif y[0] == "nor":
+                inst += op_code[y[0]]+registers[y[2]]+registers[y[3]]+registers[y[1]] +"00000"+ "100111"
+        elif y[0] == "jal":
+            inst += op_code[y[0]] + str(format(int(y[3]), '026b'))
+        elif y[0] == "lw" or y[0] == "sw":
+            d = y[2][:-1]
+            m = re.split('\(', d)
+            inst += op_code[y[0]] + registers[m[1]] + registers[y[1]] + str(format(int(m[0]), '016b'))
+        elif y[0] == "beq":
+            inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format((labels[y[3]])*4, '016b'))
+        else:
+            inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format(int(y[3]), '016b'))
+    elif line == "":
         continue
     else:
-        y = re.split(', |,| ', line)
-        if y[0] in op_code.keys():
-            if op_code[y[0]] == "000000":
-                if y[0] == "add":
-                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "100000"
-                elif y[0] == "and":
-                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "100100"
-                elif y[0] == "sll":
-                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]] + str(format(int(y[3]), '05b')) + "000000"
-                elif y[0] == "jr":
-                    inst += op_code[y[0]]+registers[y[1]] + "000000000000000001000"
-                elif y[0] == "slt":
-                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "101010"
-                elif y[0] == "nor":
-                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "100111"
-            elif y[0] == "jal":
-                inst += op_code[y[0]] + str(format(int(y[3]), '026b'))
-            else:
-                inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format(int(y[3]), '016b'))
-        else:
-            inst = "unknown instruction"
-        inst += '\n'
+        inst += "Unknown instruction"
+inst = '\n'.join(inst[i:i+8] for i in xrange(0,len(inst),8))
 fw.write(inst)
