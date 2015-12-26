@@ -31,16 +31,13 @@ wire [25:0]target;
 wire [31:0]read_data1; // Register file
 wire [31:0]read_data2;
 wire RegWrite;
-wire [4:0]read_reg1;
-wire [4:0]read_reg2;
-wire [4:0]write_reg;
 wire [31:0]write_data; 
 
-wire RegDst; // control unit
+wire [1:0]RegDst; // control unit
 wire Jump;
 wire Branch;
 wire MemRead;
-wire MemrtoReg;
+wire [1:0]MemrtoReg;
 wire [1:0]ALUop;
 wire MemWrite;
 wire ALUsrc; 
@@ -69,41 +66,40 @@ wire [31:0]mux3_out;
 wire [31:0]mux4_out;
 wire [31:0]mux5_out;
 
-Mux_5bits mux1(mux1_out,Rt,Rd,RegDst);
+wire [4:0]reg_31=5'b11111;
+MUX_3x1_5bits mux1(mux1_out,Rt,Rd,reg_31,RegDst);
 RegisterFile  reg_file (read_data1,read_data2,RegWrite, Rs , Rt, mux1_out, mux3_out , clock);
 ControlUnit cont_unit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, ALUsrc, RegWrite, opcode);
 
 wire [31:0]imm_32;
 Sign_Extend sign_ext(immediate,imm_32);  // input 16 bit immediate , output imm_32 32 bits
-Mux mux2(mux2_out,read_data2,imm_32,ALUsrc);
+MUX_2x1 mux2(mux2_out,read_data2,imm_32,ALUsrc);
 
- 
-Alu_Control ALUCont (ALU_operation, func , ALUop);
+//ALUcontrol(alu_operation , func , ALUop);
+ALUcontrol ALUCont (ALU_operation, func , ALUop);
 ALU main_alu(read_data1,mux2_out,ALU_operation,ALU_out,ZERO);
 DataMemory data_memory(data_out,ALU_out,read_data2,MemRead,MemWrite,clock);
-Mux mux3(mux3_out,ALU_out,data_out,MemrtoReg);
+MUX_3x1 mux3(mux3_out,ALU_out,data_out,address_plus4,MemrtoReg);
 
 //-----------------------------------------------------------------
 wire [31:0]address_plus4;
-Adder_4  adder1(address_plus4, address);
+Adder_4  adder1(address_plus4, inst_address);
 
 wire [31:0]adder2_result;
-wire [31:0]shifted_imm32;
-ShiftLeft_2 sh_unit2 (shifted_imm32 , imm_32);
-Adder adder2(adder2_result, address_plus4 , shifted_imm32);  
+wire [31:0]shift2_out;
+ShiftLeft2 sh_unit2 (shift2_out , imm_32);
+Adder adder2(adder2_result, address_plus4 , shift2_out);  
 
-wire branch_control= ZERO && Branch; //logical and 
-Mux mux4(mux4_out,address_plus4,adder2_result,branch_control);
+wire branch_control= ZERO && Branch; //logical AND
+MUX_2x1 mux4(mux4_out,address_plus4,adder2_result,branch_control);
 
 //implementing jump part
 wire [25:0]shift1_out;
-ShiftLeft_2 sh_unit1(shift1_out, target);  // shift_out is 26 bits wide
-/*
-wire mask[27:0]=28'b1111111111111111111111111100;
-wire jump_address28= shift1_out && mask; // here we got the 26 bit outta the shifing left + 2 lower bits 00 added
-*/
-wire [31:0]jump_address = {address_plus4[31:28],shift1_out,2'b00};
-// jump_address is (4 higher bits from address+4 )+(26bit shifted left) + (2 lower bits "00")
-Mux mux5(mux5_out,mux4_out,jump_address,Jump);
+ShiftLeft2_26bits sh_unit1(shift1_out, target);  // shift_out is 26 bits wide
 
+
+wire [31:0]jump_address = {address_plus4[31:28],shift1_out,2'b00}; // bits concatenation
+MUX_2x1 mux5(mux5_out,mux4_out,jump_address,Jump);
+
+// jump_address is (4 higher bits from address+4 )+(26bit shifted left) + (2 lower bits "00")
 endmodule
