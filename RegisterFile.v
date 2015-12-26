@@ -12,22 +12,25 @@ module RegisterFile(read_data1, read_data2, RegWrite, read_reg1, read_reg2, writ
 	reg [31:0]read_data1;
 	reg [31:0]read_data2;
 	
-
+	
+	initial	   // for testing purposes 
+		begin 
+		   RegFile[5'b10101]=32'b000000000000000000000000010001;
+		   RegFile[5'b10110]=32'b000000000000000000000000011101;
+		
+		end 
 	always@(posedge clock)
 		begin
-			if(RegWrite==0'b1)
-				begin
-						if(!write_reg==5'b00000)  #1 RegFile[write_reg]<=write_data; 
-				end
-			else
-				begin
-					// check for $S0 
-						if(read_reg1==5'b00000)  read_data1=32'b0;		
-						else  #1 read_data1=RegFile[read_reg1];
+			if(read_reg1==5'b00000)  read_data1=32'b0;		
+			else   read_data1<=RegFile[read_reg1];
 							
-						if(read_reg2==5'b00000) read_data2=32'b0;
-						else  #1 read_data2=RegFile[read_reg2];
-				end			
+			if(read_reg2==5'b00000) read_data2=32'b0;
+			else   read_data2<=RegFile[read_reg2];
+						
+			if(RegWrite==0'b1)
+			begin
+			if(!write_reg==5'b00000)   RegFile[write_reg]<=write_data; 
+			end					
 		end 
 						
 	
