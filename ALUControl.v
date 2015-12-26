@@ -1,6 +1,6 @@
 module ALUcontrol(alu_operation , func , ALUop);
 	input [5:0]func;
-	input [2:0]ALUop; 
+	input [1:0]ALUop; 
 	output [3:0]alu_operation;
 	
 	reg [3:0]alu_operation;

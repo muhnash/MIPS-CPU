@@ -10,9 +10,9 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 	
 	
 	input  op_code[5:0]; 
-	output RegDst[1:0], Jump[1:0], Branch, MemRead, MemrtoReg[1:0], ALUop[1:0], MemWrite, ALUsrc,RegWrite;
+	output RegDst[1:0], Jump, Branch, MemRead, MemrtoReg[1:0], ALUop[1:0], MemWrite, ALUsrc,RegWrite;
 	reg [1:0]RegDst;
-	reg [1:0]Jump;
+	reg Jump;   // why 2bits ya rizq ?
 	reg [1:0]MemrtoReg;
 	reg [1:0]ALUop;
 	reg Branch,MemRead,MemWrite,ALUsrc,RegWrite;

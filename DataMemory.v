@@ -1,9 +1,11 @@
-module DataMemory(read_data ,address ,write_data ,MemRead,MemWrite,clock);
-input address[10:0],write_data[31:0] ,MemRead, MemWrite ,clock;
+module DataMemory(read_data ,address_in ,write_data ,MemRead,MemWrite,clock);
+input address_in[31:0],write_data[31:0] ,MemRead, MemWrite ,clock;
 output read_data;
 
 reg [7:0]data_memory[0:2047]; // 2K=2048 bytes of  data memory 	  , 11 bits for addressing
 reg [31:0]read_data; 
+
+wire address=address_in[10:0]; // For solving address wide issue
 
 initial 
 	begin

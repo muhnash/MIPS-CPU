@@ -10,11 +10,11 @@ module Control (out, op_code);
 				// I-type instructions
 				6'b100_011 : assign {out} = 9'b011_110_000; // lw instruction
 				6'b101_011 : assign {out} = 9'bx1x_001_000; // sw instruction
-				6'b001_000 : assign {out} = 9'b'; // addi instruction
-				6'b001_100 : assign {out} = 9'b'; // andi instruction	
-				6'b000_100 : assign {out} = 9'bx0x_000_101'; // beq instruction
+				//6'b001_000 : assign {out} = 9'b'; // addi instruction
+				//6'b001_100 : assign {out} = 9'b'; // andi instruction	
+				//6'b000_100 : assign {out} = 9'bx0x_000_101'; // beq instruction
 				// J-type instructions
-				6'b000_011 : assign {out} = 9'b'; // jal instruction
+				//6'b000_011 : assign {out} = 9'b'; // jal instruction
 			endcase
 		end
 endmodule

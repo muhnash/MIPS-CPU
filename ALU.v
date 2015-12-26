@@ -11,9 +11,14 @@ module ALU(in1,in2,control_in,out,ZERO);
 	
 	
 	
-	input in1[31:0],in2[31:0],control_in[3:0];
-	output out[31:0],ZERO;
-	reg [31:0]out,ZERO;
+	input [31:0]in1;
+	input [31:0]in2;
+	input [3:0]control_in;
+	output [31:0]out;
+	output ZERO;
+
+	reg [31:0]out;
+	reg ZERO;
 	
 	
 	always @(in1 or in2 or control_in)
