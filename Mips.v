@@ -15,14 +15,7 @@ module MIPS();
 
 */	   
 // wires declarations
-reg clock;	 
-
-initial
-	clock = 0;
-	
-	
-	always 
-		#10 clock = ~clock;
+wire clock;	 
 wire [31:0]inst_address;  // for program counter 
 wire [31:0]instruction;   // for instruction memory														  
 
@@ -38,7 +31,7 @@ wire [25:0]target;
 wire [31:0]read_data1; // Register file
 wire [31:0]read_data2;
 wire RegWrite;
-wire [31:0]write_data; 
+
 
 wire [1:0]RegDst; // control unit
 wire Jump;
