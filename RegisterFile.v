@@ -15,9 +15,12 @@ module RegisterFile(read_data1, read_data2, RegWrite, read_reg1, read_reg2, writ
 	
 	initial	   // for testing purposes 
 		begin 
-		   RegFile[5'b10101]=32'b000000000000000000000000010001;
-		   RegFile[5'b10110]=32'b000000000000000000000000011101;
-		
+		   RegFile[5'b10101]=32'b000000000000000000000000010001;  // register 21 = 17
+		   RegFile[5'b10110]=32'b000000000000000000000000011101;  // register 22 = 29
+		   
+		   // inst 000000  10101  10110 00001 00000 100000
+		   //  ADD  $reg1 $reg22 $reg21; 
+		   
 		end 
 	always@(posedge clock)
 		begin

@@ -15,7 +15,14 @@ module MIPS();
 
 */	   
 // wires declarations
-wire clock;
+reg clock;	 
+
+initial
+	clock = 0;
+	
+	
+	always 
+		#10 clock = ~clock;
 wire [31:0]inst_address;  // for program counter 
 wire [31:0]instruction;   // for instruction memory														  
 
@@ -42,9 +49,7 @@ wire [1:0]ALUop;
 wire MemWrite;
 wire ALUsrc; 
 
-wire [31:0]in1; // ALU
-wire [31:0]in2;
-wire [3:0]ALU_operation;
+wire [3:0]ALU_operation; //ALU
 wire [31:0]ALU_out;
 wire ZERO; 
 
