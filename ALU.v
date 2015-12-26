@@ -1,89 +1,45 @@
-module ALU(in1,in2,control_in,out,ZERO);
-	//in1: Rs input
-	//in2: Rt input
-	//control_in: 5-bit to choose between the ALU operations
-	//out: Rd or Rt output
-	//ZERO: is equal one when it's true
-	
-	//******************************************************
-	//ALL ALU operations are buit-in it EXCEPT Sign_Extender
-	//******************************************************
-	
-	
-	
+module ALU(out,ZERO,in1,in2,alu_operation);
+
 	input [31:0]in1;
 	input [31:0]in2;
-	input [3:0]control_in;
+	input [3:0]alu_operation;
 	output [31:0]out;
 	output ZERO;
 
 	reg [31:0]out;
-	reg ZERO;
-	
-	
-	always @(in1 or in2 or control_in)
+	reg ZERO = 0;
+	/*
+	ALU OPERATIONS :
+	================
+	AND     0000
+	OR 		0001
+	Add     0010
+	Subtract	0110
+	Set on less than	0111
+	NOR		1100
+	Shift left 0011
+	*/
+	always @(in1 or in2 or alu_operation)
 		begin 
 	
-			if(control_in==4'b0010)begin   // ADD & ADDI OPERATION
-			 out=in1+in2;
-			end	
+			if(alu_operation==4'b0010) 	out=in1+in2; 	//ADD
 			
-			/*if(control_in==4'b0001)begin  // ADDI OPERATION
-			   
-			   out=in1+in2;
-			end
-			*/
+			else if (alu_operation==4'b0110) //subtract 
+				begin 
+					out=in1-in2; 
+					if (out==0) ZERO=1;
+				end 	
+
+			else if (alu_operation==4'b0000) out=in1 && in2; // AND
 			
-			if(control_in==4'b0010)begin  // LW & SW OPERATION
-				out=in1+in2;
-			end
+			else if (alu_operation==4'b0001) out=in1||in2; // OR
 			
-			/*if(control_in==4'b0011)begin  // SW OPERATION
-				out=in1+in2;
-			end
-			*/
+			else if (alu_operation==4'b1100) out=!(in1||in2); //NOR
 			
-			if(control_in==4'b0100)begin  // S11 OPERATION
-						 out=in1*2*in2;
-			end
+			//---------------------- THE FOLLOWING INS"T COMPLETE --------------------------
+			else if (alu_operation==4'b0111) out=in1+in2; // set on less than
 			
-			if(control_in==4'b0101)begin  // AND & ANDI OPERATION
-				
-				out=in1 & in2;
-			end
-			
-			/*if(control_in==4'b0110)begin  // ANDI OPERATION
-				
-			    out=in1 & in2;
-			end	
-			*/
-			
-			if(control_in==4'b0111)begin // NOR OPERATION
-				
-				out=~(in1 | in2);
-			end
-			
-			if(control_in==4'b1000)begin //  beq  OPERATION
-				if(in1-in2==0) ZERO=1;
-				else ZERO=0;			  
-			end
-			
-			/*if(control_in==4'b1001)begin //   jal  OPERATION
-				
-					//DO NOTHING
-			end	
-			*/
-			/*if(control_in==4'b1010)begin //   jr   OPERATION
-					//DO NOTHING
-				
-			end
-			*/
-			if(control_in==4'b1011)begin //   slt  OPERATION
-				if(in1<in2) out=1;
-				else out=0;
-			end
-	
-	
+			else if (alu_operation==4'b0100) out=in1+in2; // shiftleft
 		end
 
 endmodule 

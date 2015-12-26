@@ -81,7 +81,7 @@ ControlUnit cont_unit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite
 
 ALUcontrol ALUCont (ALU_operation, func , ALUop);
 
-ALU main_alu(read_data1,mux2_out,ALU_operation,ALU_out,ZERO);
+ALU main_alu(ALU_out,ZERO,read_data1,mux2_out,ALU_operation);
 
 DataMemory data_memory(data_out,ALU_out,read_data2,MemRead,MemWrite,clock);
 
@@ -106,4 +106,4 @@ Adder adder2(adder2_result, address_plus4 , shift2_out);
 Adder_4  adder1(address_plus4, inst_address);
 
 // jump_address is (4 higher bits from address+4 )+(26bit shifted left) + (2 lower bits "00")
-endmodule
+endmodule 

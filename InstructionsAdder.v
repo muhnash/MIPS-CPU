@@ -5,6 +5,6 @@ module Adder_4 (out, instruction_address);
 	
 	always @ (instruction_address)
 		begin		  
-			 #5 out = instruction_address + 32'b00000000000000000000000000000100;
+			  out = instruction_address + 32'b00000000000000000000000000000100;
 		end
 endmodule

@@ -2,8 +2,8 @@ module Sign_Extend(in,out);
    	
  	//in : 16-bit input 
 	//out: 32-bit output
-	input in [15:0];
-	output out[31:0];
+	input [15:0]in ;
+	output [31:0]out;
 	reg [31:0]out;
 	always @(in) begin
 		if(in[15]==0)begin

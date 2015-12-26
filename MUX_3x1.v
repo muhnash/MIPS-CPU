@@ -39,7 +39,7 @@ module MUX_3x1_5bits(out,value1,value2,value3,sel);
 	output [4:0]out;
 	reg [4:0]out;
 	
-	always @(sel) begin
+	always @(sel or value1 or value2) begin
 		if(sel==2'b00)begin
 			out=value1;
 		end
