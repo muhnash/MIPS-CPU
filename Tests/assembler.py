@@ -52,26 +52,29 @@ fw = open('output.binary', 'w')
 for line in fr:
     line = line[:-1]
     line = line.lstrip()
-    y = re.split(', |,| ', line)
-    if y[0] in op_code.keys():
-        if op_code[y[0]] == "000000":
-            if y[0] == "add":
-                inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "100000"
-            elif y[0] == "and":
-                inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "100100"
-            elif y[0] == "sll":
-                inst += op_code[y[0]]+registers[y[1]]+registers[y[2]] + str(format(int(y[3]), '05b')) + "000000"
-            elif y[0] == "jr":
-                inst += op_code[y[0]]+registers[y[1]] + "000000000000000001000"
-            elif y[0] == "slt":
-                inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "101010"
-            elif y[0] == "nor":
-                inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "100111"
-        elif y[0] == "jal":
-            inst += op_code[y[0]] + str(format(int(y[3]), '026b'))
-        else:
-            inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format(int(y[3]), '016b'))
+    if line[0] == "#":
+        continue
     else:
-        inst = "unknown instruction"
-    inst += '\n'
+        y = re.split(', |,| ', line)
+        if y[0] in op_code.keys():
+            if op_code[y[0]] == "000000":
+                if y[0] == "add":
+                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "100000"
+                elif y[0] == "and":
+                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "100100"
+                elif y[0] == "sll":
+                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]] + str(format(int(y[3]), '05b')) + "000000"
+                elif y[0] == "jr":
+                    inst += op_code[y[0]]+registers[y[1]] + "000000000000000001000"
+                elif y[0] == "slt":
+                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "101010"
+                elif y[0] == "nor":
+                    inst += op_code[y[0]]+registers[y[1]]+registers[y[2]]+registers[y[3]] +"00000"+ "100111"
+            elif y[0] == "jal":
+                inst += op_code[y[0]] + str(format(int(y[3]), '026b'))
+            else:
+                inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format(int(y[3]), '016b'))
+        else:
+            inst = "unknown instruction"
+        inst += '\n'
 fw.write(inst)
