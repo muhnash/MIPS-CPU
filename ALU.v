@@ -41,7 +41,7 @@ module ALU(out,ZERO,in1,in2,alu_operation,shmt);
 				if (in1<in2) out=1;
 				else out=0;
 			
-			else if (alu_operation==4'b0100) out=in2<<shmt; // shiftleft
+			else if (alu_operation==4'b0011) out=in2<<shmt; // shiftleft
 		end
 
 endmodule 

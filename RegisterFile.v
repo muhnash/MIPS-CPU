@@ -14,8 +14,10 @@ module RegisterFile(read_data1, read_data2, RegWrite, read_reg1, read_reg2, writ
 		begin 	   
 		   RegFile[0]=0;		
 		   // for testing purposes 
-		   RegFile[5'b10101]=32'b000000000000000000000000010001;  // register 21 = 17
-		   RegFile[5'b10110]=32'b000000000000000000000000011101;  // register 22 = 29
+		   RegFile[20]=16;  
+		   RegFile[21]=32;
+		   RegFile[9]=64;
+		   
 		   // inst 000000  10101  10110 00001 00000 100000
 		   //  ADD  $reg1 $reg22 $reg21; 
 		   
