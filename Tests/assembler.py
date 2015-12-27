@@ -2,7 +2,7 @@ import re
 op_code = {
     "add" : "000000",
     "addi" : "001000",
-    "lw" : "1000 11",
+    "lw" : "100011",
     "sw" : "101011",
     "sll" : "000000",
     "and" : "000000",
@@ -49,8 +49,8 @@ registers = {
 inst = ""
 labels ={}
 inst_count = -1
-fr = open('test.mips', 'r')
-fc = open('test.mips', 'r')
+fr = open('test2.mips', 'r')
+fc = open('test2.mips', 'r')
 fw = open('output.binary', 'w')
 for l in fc:
     l = l.lstrip()
@@ -72,7 +72,7 @@ for line in fr:
             elif y[0] == "and":
                 inst += op_code[y[0]]+registers[y[2]]+registers[y[3]]+registers[y[1]] +"00000"+ "100100"
             elif y[0] == "sll":
-                inst += op_code[y[0]]+registers[y[1]]+registers[y[2]] + str(format(int(y[3]), '05b')) + "000000"
+                inst += op_code[y[0]] + "00000" + registers[y[2]]+registers[y[1]] + str(format(int(y[3]), '05b')) + "000000"
             elif y[0] == "jr":
                 inst += op_code[y[0]]+registers[y[1]] + "000000000000000001000"
             elif y[0] == "slt":
