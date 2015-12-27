@@ -1,9 +1,11 @@
-module ALUcontrol(alu_operation , func , ALUop);
+module ALUcontrol(alu_operation,Jr , func , ALUop);
 	input [5:0]func;
 	input [1:0]ALUop; 
 	output [3:0]alu_operation;
+	output Jr;
 	
 	reg [3:0]alu_operation;
+	reg Jr;
 	/*
 	ALUop:
 	======
@@ -22,7 +24,8 @@ module ALUcontrol(alu_operation , func , ALUop);
 	Set on less than	0111
 	NOR		1100
 	Shift left 0011
-	*/
+	*/			
+	initial Jr=0;
 	always @(func or ALUop)
 	begin
 	 	if (ALUop==2'b00) alu_operation <= 4'b0010;  // add operation [for lw and sw]
@@ -34,7 +37,9 @@ module ALUcontrol(alu_operation , func , ALUop);
 	 				6'b100000: alu_operation <= 4'b0010; //ADD ==> OP :ADD 
 	 				6'b100100: alu_operation <= 4'b0000; //AND ==> OP :AND
 	 				6'b100111: alu_operation <= 4'b1100; //NOR ==> OP :NOR
-	 				6'b001000: alu_operation <= 4'b0010; //Jr  ==> OP :ADD ?
+	 				6'b001000: begin
+						 	   Jr<=1;
+						 	   end
 	 				6'b101010: alu_operation <= 4'b0111; //Slt ==> OP :set on less than 
 	 				6'b000000: alu_operation <= 4'b0011; //Sll ==> OP :shift left 
 	 			endcase
