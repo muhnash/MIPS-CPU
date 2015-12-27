@@ -9,35 +9,27 @@ module RegisterFile(read_data1, read_data2, RegWrite, read_reg1, read_reg2, writ
 	output [31:0]read_data2;
 	
 	reg [31:0]RegFile[0:31]; // 32 Registers >>  32 bits wide (5 bits for addressing)
-	reg [31:0]read_data1;
-	reg [31:0]read_data2;
 	
-	
-	initial	   // for testing purposes 
-		begin 
-		   //RegFile[5'b10101]=32'b000000000000000000000000010001;  // register 21 = 17		//THE REASON FOR THE ERROR
-		   //RegFile[5'b10110]=32'b000000000000000000000000011101;  // register 22 = 29		//THE REASON FOR THE ERROR
-		   
-		   
-		   RegFile[21]=32'b000000000000000000000000010001;	//CORRECTED 
-		   RegFile[22]=32'b000000000000000000000000011101;	//CORRECTED
-		   // inst 000000  10101  10110 00001 00000 100000
-		   //  ADD  $reg1 $reg22 $reg21; 
+
+	initial	   
+		begin 	   
+		   RegFile[0]=0;		
+		   // for testing purposes 
+		   RegFile[20]=16;  
+		   RegFile[21]=32;
+		   RegFile[9]=64;
 		   
 		end 
+		
+		
+	assign read_data1=RegFile[read_reg1];
+	assign read_data2=RegFile[read_reg2];
 	always@(posedge clock)
-		begin
-			if(read_reg1==5'b00000)  read_data1=32'b0;		
-			else   read_data1<=RegFile[read_reg1];
-							
-			if(read_reg2==5'b00000) read_data2=32'b0;
-			else   read_data2<=RegFile[read_reg2];
-						
-			if(RegWrite==0'b1)
-			begin
-			if(!write_reg==5'b00000)   RegFile[write_reg]<=write_data; 
-			end					
+		begin 
+			if(RegWrite==0'b1 && write_reg!=5'b00000)
+			 	RegFile[write_reg]<=write_data; 			
 		end 
-						
+		
 	
-endmodule
+	
+endmodule	
