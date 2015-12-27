@@ -8,7 +8,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 	output [1:0]ALUop;
 
 	reg [1:0]RegDst;
-	reg Jump;   // why 2bits ya rizq ?
+	reg Jump;   
 	reg [1:0]MemrtoReg;
 	reg [1:0]ALUop;
 	reg Branch,MemRead,MemWrite,ALUsrc,RegWrite;

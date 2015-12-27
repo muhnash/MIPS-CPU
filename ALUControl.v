@@ -25,9 +25,10 @@ module ALUcontrol(alu_operation,Jr , func , ALUop);
 	NOR		1100
 	Shift left 0011
 	*/			
-	initial Jr=0;
+	
 	always @(func or ALUop)
 	begin
+		Jr<=0;
 	 	if (ALUop==2'b00) alu_operation <= 4'b0010;  // add operation [for lw and sw]
 	 	else if(ALUop==2'b01) alu_operation <= 4'b0110; // sub operation [for beq]
 	 	else if(ALUop==2'b11) alu_operation <= 4'b0010; // and operation [for andi]
