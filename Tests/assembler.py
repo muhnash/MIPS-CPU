@@ -49,8 +49,8 @@ registers = {
 inst = ""
 labels ={}
 inst_count = -1
-fr = open('test.mips', 'r')
-fc = open('test.mips', 'r')
+fr = open('test5.mips', 'r')
+fc = open('test5.mips', 'r')
 fw = open('output.binary', 'w')
 for l in fc:
     l = l.lstrip()
@@ -60,6 +60,7 @@ for l in fc:
     if ":" in l:
         labels[re.sub(':.*|\n', '', l)] = inst_count
         inst_count -=1
+count = 1
 for line in fr:
     line = line.lstrip()
     line = re.sub('[a-zA-Z]+:|#.*|\n', '', line)
@@ -80,15 +81,18 @@ for line in fr:
             elif y[0] == "nor":
                 inst += op_code[y[0]]+registers[y[2]]+registers[y[3]]+registers[y[1]] +"00000"+ "100111"
         elif y[0] == "jal":
-            inst += op_code[y[0]] + str(format(int(y[3]), '026b'))
+            pos = abs(count - labels[y[1]]) if count<labels[y[1]] else abs(count - labels[y[1]])-1
+            inst += op_code[y[0]] + str(format(pos, '026b'))
         elif y[0] == "lw" or y[0] == "sw":
             d = y[2][:-1]
             m = re.split('\(', d)
             inst += op_code[y[0]] + registers[m[1]] + registers[y[1]] + str(format(int(m[0]), '016b'))
         elif y[0] == "beq":
-            inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format((labels[y[3]])*4, '016b'))
+            pos = abs(count - labels[y[1]]) if count<labels[y[1]] else abs(count - labels[y[1]])-1
+            inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format(pos, '016b'))
         else:
             inst += op_code[y[0]] + registers[y[2]] + registers[y[1]] + str(format(int(y[3]), '016b'))
+        count +=1
     elif line == "":
         continue
     else:

@@ -13,12 +13,13 @@ initial
 		$readmemb("data_memory.list",data_memory);
 	end 
 
-assign read_data=(MemRead)?{data_memory[address],data_memory[address+1],data_memory[address+2],data_memory[address+3]}:32'b0;
+assign #5 read_data=(MemRead)?{data_memory[address],data_memory[address+1],data_memory[address+2],data_memory[address+3]}:32'b0;
 
 always@(posedge clock)
 	begin	  
 		if(MemWrite==1)
-		begin
+		begin 
+			#5
 			data_memory[address]=write_data[31:24];
 			data_memory[address+1]=write_data[23:16];
 			data_memory[address+2]=write_data[15:8];

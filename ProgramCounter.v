@@ -17,7 +17,7 @@ module ProgramCounter(inst_address, next_inst_address, clock);
 
 	always @(posedge clock) 
 	begin
-		inst_address= next_inst_address;
+		#5 inst_address= next_inst_address;
 	end
 endmodule
 

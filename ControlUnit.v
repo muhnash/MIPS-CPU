@@ -8,7 +8,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 	output [1:0]ALUop;
 
 	reg [1:0]RegDst;
-	reg Jump;   // why 2bits ya rizq ?
+	reg Jump;   
 	reg [1:0]MemrtoReg;
 	reg [1:0]ALUop;
 	reg Branch,MemRead,MemWrite,ALUsrc,RegWrite;
@@ -16,7 +16,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 	always @ (op_code)
 		begin	
 			case (op_code)  
-				6'b000000 : begin    // R-Format instructions [add , and , nor, jr,slt,sll]
+				6'b000000 : begin #5   // R-Format instructions [add , and , nor, jr,slt,sll]
 						RegDst<=2'b01;	  
 		   				Jump<=1'b0;
 		   				Branch<=1'b0;
@@ -28,7 +28,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				RegWrite<=1'b1;
 					    end
 					 
-				6'b001000 : begin
+				6'b001000 : begin #5
 						RegDst<=2'b00;	  // Addi (I format)
 		   				Jump<=2'b00;
 						Branch<=1'b0;
@@ -40,7 +40,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				RegWrite<=1'b1;
 		       			    end
 				
-				6'b100011 : begin
+				6'b100011 : begin  #5
 						RegDst<=2'b00;	  // lw (I format)
 		   				Jump<=2'b00;
 		   				Branch<=1'b0;
@@ -52,7 +52,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				RegWrite<=1'b1;
 					    end
 					
-	 		   	6'b101011 : begin	
+	 		   	6'b101011 : begin	#5
 				   		RegDst<=2'bxx;	  // sw (I format)
 		   				Jump<=2'b00;
 		   				Branch<=1'b0;
@@ -64,7 +64,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				RegWrite<=1'b0;
 		   			    end
 				   
-				6'b001100 : begin	
+				6'b001100 : begin	 #5
 						RegDst<=2'b00;	  // andi (I format)
 		   				Jump<=2'b00;
 		   				Branch<=1'b0;
@@ -76,7 +76,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				RegWrite<=1'b1;
 				  	    end
 				
-				6'b000100 : begin
+				6'b000100 : begin	   #5
 						RegDst<=2'bxx;	  // beq (I format)
 		   				Jump<=2'b00;
 		   				Branch<=1'b1;
@@ -88,7 +88,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 		   				RegWrite<=1'b0;
 				    	    end
 				
-				6'b000011 : begin
+				6'b000011 : begin		#5
 						RegDst<=2'b10;	  // jal (J format)
 		   				Jump<=2'b01;
 		   				Branch<=1'bx;

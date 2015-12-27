@@ -15,7 +15,7 @@ module MIPS();
 
 */	   
 // wires declarations
-wire clock;	 
+reg clock=0;	 
 wire [31:0]inst_address;  // for program counter 
 wire [31:0]instruction;   // for instruction memory														  
 
@@ -31,7 +31,7 @@ wire [25:0]target;
 wire [31:0]read_data1; // Register file
 wire [31:0]read_data2;
 wire RegWrite;
-
+wire RegWrite_Jr= RegWrite && Jr;
 
 wire [1:0]RegDst; // control unit
 wire Jump;
@@ -41,6 +41,8 @@ wire [1:0]MemrtoReg;
 wire [1:0]ALUop;
 wire MemWrite;
 wire ALUsrc; 
+
+wire Jr;
 
 wire [3:0]ALU_operation; //ALU
 wire [31:0]ALU_out;
@@ -53,6 +55,7 @@ wire [31:0]mux2_out;
 wire [31:0]mux3_out;
 wire [31:0]mux4_out;
 wire [31:0]mux5_out;
+wire [31:0]mux6_out;
 
 wire [4:0]reg_31=5'b11111;
 wire [31:0]imm_32;
@@ -61,25 +64,30 @@ wire [31:0]adder2_result;
 wire [31:0]shift2_out;
 wire branch_control= ZERO && Branch; //logical AND
 wire [25:0]shift1_out;
-wire [31:0]jump_address = {address_plus4[31:28],shift1_out,2'b00}; // bits concatenation
+wire [31:0]jump_address = {address_plus4[31:28],target,2'b00}; // bits concatenation
 
 /*
-	CLOCK MODELING GOES HERE
-*/	
+CLOCK MODELING GOES HERE 
+*/						 
+
+always 
+	begin
+		 #30 clock=~clock;
+	end
 	
 
 // Modules instantiation 
-ProgramCounter PC (inst_address,mux5_out, clock);
+ProgramCounter PC (inst_address,mux6_out, clock);
 
 InstructionMemory inst_memory(instruction,inst_address,clock);
 
 InstructionDecoder inst_decoder (opcode, Rs, Rt, Rd ,shmt, func, immediate, target, instruction);
 
-RegisterFile  reg_file (read_data1,read_data2,RegWrite, Rs , Rt, mux1_out, mux3_out , clock);
+RegisterFile  reg_file (read_data1,read_data2,RegWrite_Jr, Rs , Rt, mux1_out, mux3_out , clock);
 
 ControlUnit cont_unit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, ALUsrc, RegWrite, opcode);
 
-ALUcontrol ALUCont (ALU_operation, func , ALUop);
+ALUcontrol ALUCont (ALU_operation,Jr ,func , ALUop);
 
 ALU main_alu(ALU_out,ZERO,read_data1,mux2_out,ALU_operation,shmt);
 
@@ -97,13 +105,15 @@ MUX_2x1 mux4(mux4_out,address_plus4,adder2_result,branch_control);
 
 MUX_2x1 mux5(mux5_out,mux4_out,jump_address,Jump);
 
+MUX_2x1 mux6(mux6_out,mux5_out,read_data1,Jr);
+
 ShiftLeft2_26bits sh_unit1(shift1_out, target);  // shift_out is 26 bits wide
 
-ShiftLeft2 sh_unit2 (shift2_out , imm_32);
+//ShiftLeft2 sh_unit2 (shift2_out , imm_32);
 
 Adder adder2(adder2_result, address_plus4 , shift2_out);  
 
 Adder_4  adder1(address_plus4, inst_address);
 
-// jump_address is (4 higher bits from address+4 )+(26bit shifted left) + (2 lower bits "00")
+// jump_address is (4 higher bits from address+4 )+(26bit target) + (2 lower bits "00")
 endmodule 
