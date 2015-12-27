@@ -1,14 +1,5 @@
 module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, ALUsrc, RegWrite, op_code);
-	//###########################################################
-	//CONTROL_UNIT
-	//BASED on mips control table "See the Word file at source code directory" 
-	
-	//JR is	NOT SUPPORTED
-	
-	//###########################################################
-	
-	
-	
+	//JR & Jal are NOT SUPPORTED				
 	input  [5:0]op_code; 
 	
 	output [1:0]RegDst;
@@ -25,8 +16,8 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 	always @ (op_code)
 		begin	
 			case (op_code)  
-				6'b000000 : begin
-						RegDst<=2'b01;	  // R-Format instructions [add , and , nor, jr,slt,sll]
+				6'b000000 : begin    // R-Format instructions [add , and , nor, jr,slt,sll]
+						RegDst<=2'b01;	  
 		   				Jump<=1'b0;
 		   				Branch<=1'b0;
 		   				MemRead<=1'b0;
@@ -43,7 +34,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 						Branch<=1'b0;
 	  					MemRead<=1'b0;
 		   				MemrtoReg<=2'b00;
-	       				ALUop<=2'b10;
+	       				ALUop<=2'b00;
 		   				MemWrite<=1'b0;
 		   				ALUsrc<=1'b1;
 		   				RegWrite<=1'b1;
