@@ -1,8 +1,9 @@
-module ALU(out,ZERO,in1,in2,alu_operation);
+module ALU(out,ZERO,in1,in2,alu_operation,shmt);
 
 	input [31:0]in1;
 	input [31:0]in2;
 	input [3:0]alu_operation;
+	input [4:0]shmt;
 	output [31:0]out;
 	output ZERO;
 
@@ -30,16 +31,17 @@ module ALU(out,ZERO,in1,in2,alu_operation);
 					if (out==0) ZERO=1;
 				end 	
 
-			else if (alu_operation==4'b0000) out=in1 && in2; // AND
+			else if (alu_operation==4'b0000) out=in1 & in2; // Bitwise AND
 			
-			else if (alu_operation==4'b0001) out=in1||in2; // OR
+			else if (alu_operation==4'b0001) out=in1 |in2; // Bitwise OR
 			
-			else if (alu_operation==4'b1100) out=!(in1||in2); //NOR
+			else if (alu_operation==4'b1100) out=!(in1|in2); //NOR
 			
-			//---------------------- THE FOLLOWING INS"T COMPLETE --------------------------
-			else if (alu_operation==4'b0111) out=in1+in2; // set on less than
+			else if (alu_operation==4'b0111) // set on less than
+				if (in1<in2) out=1;
+				else out=0;
 			
-			else if (alu_operation==4'b0100) out=in1+in2; // shiftleft
+			else if (alu_operation==4'b0100) out=in2<<shmt; // shiftleft
 		end
 
 endmodule 

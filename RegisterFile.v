@@ -15,12 +15,11 @@ module RegisterFile(read_data1, read_data2, RegWrite, read_reg1, read_reg2, writ
 	
 	assign read_data1=RegFile[read_reg1];
 	assign read_data2=RegFile[read_reg2];
+	
 	always@(posedge clock)
 		begin 
-				
 			if(RegWrite==0'b1 && write_reg!=5'b00000)
-			 	RegFile[write_reg]<=write_data; 
-							
+			 	RegFile[write_reg]<=write_data; 			
 		end 
 		
 	

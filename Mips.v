@@ -81,7 +81,7 @@ ControlUnit cont_unit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite
 
 ALUcontrol ALUCont (ALU_operation, func , ALUop);
 
-ALU main_alu(ALU_out,ZERO,read_data1,mux2_out,ALU_operation);
+ALU main_alu(ALU_out,ZERO,read_data1,mux2_out,ALU_operation,shmt);
 
 DataMemory data_memory(data_out,ALU_out,read_data2,MemRead,MemWrite,clock);
 
