@@ -51,7 +51,7 @@ labels ={}
 inst_count = -1
 fr = open('test5.mips', 'r')
 fc = open('test5.mips', 'r')
-fw = open('output.binary', 'w')
+fw = open('output5.binary', 'w')
 for l in fc:
     l = l.lstrip()
     if not re.search('^#.*', l):
@@ -88,7 +88,7 @@ for line in fr:
             m = re.split('\(', d)
             inst += op_code[y[0]] + registers[m[1]] + registers[y[1]] + str(format(int(m[0]), '016b'))
         elif y[0] == "beq":
-            pos = abs(count - labels[y[1]]) if count<labels[y[1]] else abs(count - labels[y[1]])-1
+            pos = abs(count - labels[y[3]]) if count<labels[y[3]] else abs(count - labels[y[3]])-1
             inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format(pos, '016b'))
         else:
             inst += op_code[y[0]] + registers[y[2]] + registers[y[1]] + str(format(int(y[3]), '016b'))
