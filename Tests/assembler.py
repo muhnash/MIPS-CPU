@@ -49,8 +49,8 @@ registers = {
 inst = ""
 labels ={}
 inst_count = -1
-fr = open('test2.mips', 'r')
-fc = open('test2.mips', 'r')
+fr = open('test.mips', 'r')
+fc = open('test.mips', 'r')
 fw = open('output.binary', 'w')
 for l in fc:
     l = l.lstrip()
@@ -88,7 +88,7 @@ for line in fr:
         elif y[0] == "beq":
             inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format((labels[y[3]])*4, '016b'))
         else:
-            inst += op_code[y[0]] + registers[y[1]] + registers[y[2]] + str(format(int(y[3]), '016b'))
+            inst += op_code[y[0]] + registers[y[2]] + registers[y[1]] + str(format(int(y[3]), '016b'))
     elif line == "":
         continue
     else:
