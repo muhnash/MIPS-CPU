@@ -1,4 +1,4 @@
-# Calculate the sum of numbers from 0-100 and store them in address 0x00 in memory
+# Calculate the sum of numbers from 0:100 and store them in address 0x00 in memory
 add $s1, $zero, $zero
 addi $t1, $zero, 101
 andi $t2, $t2, 0
