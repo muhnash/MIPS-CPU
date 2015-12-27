@@ -14,3 +14,4 @@ LOOP:
 ADDING:
   add $t1, $t1, $s1
 END:
+  sw $t1, 0($s4)

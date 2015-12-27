@@ -1,6 +1,6 @@
-# Calculate the sum of numbers from 0:100 and store them in address 0x00 in memory
+# Calculate the sum of numbers from 0:5 and store them in address 0x00 in memory
 add $s1, $zero, $zero
-addi $t1, $zero, 101
+addi $t1, $zero, 6
 andi $t2, $t2, 0
 andi $t4, $t4, 0
 LOOP:
