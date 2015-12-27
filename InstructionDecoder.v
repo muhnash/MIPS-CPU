@@ -9,10 +9,17 @@
 //------------------------------------------------------------------------
 
 module InstructionDecoder(opcode, Rs, Rt, Rd ,shmt, func, immediate, target, instruction);
-	input instruction[31:0];
-	output opcode[5:0], Rs[4:0], Rt[4:0], Rd[4:0] ,shmt[4:0], func[5:0], immediate[15:0], target[25:0];
+	input [31:0]instruction;
+	output [5:0]opcode;
+	output [4:0]Rs;
+	output [4:0]Rt;
+	output [4:0]Rd;
+	output [4:0]shmt;
+	output [5:0]func;
+	output [15:0]immediate;
+	output [25:0]target;
 	
-	assign #1 	  opcode = instruction[31:26],
+	assign  	  opcode = instruction[31:26],
 			      Rs = instruction[25:21],
 				  Rt = instruction[20:16],
 				  Rd = instruction[15:11],

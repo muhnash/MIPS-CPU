@@ -24,7 +24,7 @@ module ALU(in1,in2,control_in,out,ZERO);
 	always @(in1 or in2 or control_in)
 		begin 
 	
-			if(control_in==4'b0000)begin   // ADD & ADDI OPERATION
+			if(control_in==4'b0010)begin   // ADD & ADDI OPERATION
 			 out=in1+in2;
 			end	
 			

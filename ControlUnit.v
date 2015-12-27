@@ -9,8 +9,13 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 	
 	
 	
-	input  op_code[5:0]; 
-	output RegDst[1:0], Jump, Branch, MemRead, MemrtoReg[1:0], ALUop[1:0], MemWrite, ALUsrc,RegWrite;
+	input  [5:0]op_code; 
+	
+	output [1:0]RegDst;
+	output Jump, Branch, MemRead, MemWrite, ALUsrc,RegWrite;
+	output [1:0]MemrtoReg;
+	output [1:0]ALUop;
+
 	reg [1:0]RegDst;
 	reg Jump;   // why 2bits ya rizq ?
 	reg [1:0]MemrtoReg;
@@ -22,7 +27,7 @@ module ControlUnit(RegDst, Jump , Branch, MemRead, MemrtoReg, ALUop, MemWrite, A
 			case (op_code)  
 				6'b000000 : begin
 						RegDst<=2'b01;	  // R-Format instructions [add , and , nor, jr,slt,sll]
-		   				Jump<=2'b00;
+		   				Jump<=1'b0;
 		   				Branch<=1'b0;
 		   				MemRead<=1'b0;
 		   				MemrtoReg<=2'b00;

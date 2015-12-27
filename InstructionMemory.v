@@ -13,7 +13,7 @@ module InstructionMemory(instruction,inst_address,clock);
 		begin
 			$readmemb("instruction_memory.list",inst_memory);
 		end 
-	always @(posedge clock)
+	always @(address)
 		begin
 			instruction[31:24]=inst_memory[address];
 			instruction[23:16]=inst_memory[address+2'b01];
