@@ -1,0 +1,6 @@
+# Swap two variables
+lw $s1, 0($t1)
+lw $s2, 0($t2)
+and $t3, $s1, $s1
+and $s1, $s2, $s2
+and $s2, $t3, $t3
