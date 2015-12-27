@@ -21,7 +21,7 @@ module ALU(out,ZERO,in1,in2,alu_operation,shmt);
 	Shift left 0011
 	*/
 	always @(in1 or in2 or alu_operation)
-		begin 
+		begin  #5 //delay 
 	
 			if(alu_operation==4'b0010) 	out=in1+in2; 	//ADD
 			
