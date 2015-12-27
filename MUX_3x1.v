@@ -1,12 +1,4 @@
 module MUX_3x1(out,value1,value2,value3,sel);
-	
-	//#############################
-	// sel:2-bit input choose signal
-	// value1: first value
-	// value2: second value
-	// value3: third value
-	// out:output
-	
 	input [1:0]sel;
 	input [31:0]value1;
 	input [31:0]value2;
@@ -17,7 +9,7 @@ module MUX_3x1(out,value1,value2,value3,sel);
 	
 	always @(sel or value1 or value2) 
 		begin
-		if(sel==2'b00)begin
+		if(sel==2'b00)begin					  
 			out=value1;
 		end
 		else if(sel==2'b01)begin

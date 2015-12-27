@@ -12,7 +12,7 @@ module ProgramCounter(inst_address, next_inst_address, clock);
 	
 	initial 
 	begin
-		inst_address=32'b00000000000000000000000000000000;  // initialy point to the 1st instruction i'e address 0
+		inst_address=0;  // initialy point to the 1st instruction i'e address 0
 	end
 
 	always @(posedge clock) 

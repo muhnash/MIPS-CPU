@@ -13,9 +13,9 @@ module InstructionMemory(instruction, inst_address , clock);
 		end 
 	always @(posedge clock or inst_address)
 		begin
-			instruction={inst_memory[inst_address],
-			inst_memory[inst_address+1],
-			inst_memory[inst_address+2],
-			inst_memory[inst_address+3]};
+			instruction<={inst_memory[inst_address],
+						inst_memory[inst_address+1],
+						inst_memory[inst_address+2],
+						inst_memory[inst_address+3]};
 		end
 endmodule 						  
